@@ -1,0 +1,35 @@
+# Use container-based infrastructure for faster builds
+sudo: false
+
+language: java
+
+jdk:
+  oraclejdk7
+
+# These directories are cached to S3 at the end of the build so Travis do no have to download everything again between each build
+cache:
+  directories:
+    - $HOME/.ivy2/cache
+    - $HOME/.sbt/boot/
+before_cache:
+  # Cleanup the cached directories to avoid unnecessary cache updates
+  - find $HOME/.ivy2/cache -name "ivydata-*.properties" -print -delete
+  - find $HOME/.sbt        -name "*.lock"               -print -delete
+
+install:
+- ./build/sbt assembly
+script:
+- ./build/sbt scalastyle
+- ./build/sbt test
+
+branches:
+  only:
+  - develop
+  - master
+
+notifications:
+  slack:
+    on_success: change
+    on_failure: always
+    rooms:
+      secure: tFt9l9k9gT2YRY8frGCc0rAy7l+/UfbyqanSv3aF4c8717V+d6JJGVgc4VoRDO5KNZ5rrq9rhovlbY4czROEm8sFMmVIijgf1+XIZSIcU9uCI7BKTfxRd6SFWeT3etLJdvQKShELJpUUyRUyjOzvL0HhWH2C6Qw/Qomh6Q5ebGxHXhdJyiF3+C6KUGFFYkYmJkEG68QGqgQdhhWggPlbr5c1fIC4LHl95dmjqNL2zGg5fo1SWQroSNUXZOgfO+noSCPe9Yn4sS3CLgToA1ufTtKWDiMGniqau4Hqu3gauhoDG+5XI6LEqf7upFsi9enmzNdyDuLJ5RGa58OBVtNU8mqpnpmMe31BuIl66mmm38xmVzDyolM+zvJWySbGqMbfQdH13n69pvVQqx9RAtJxFUzYGxvK2js+6TBHog3X8bWiXrcNmbwCjWRu+1HngQ0laxhpTS2aeTTkVqm4Sj5YthzVJhDjL4st3AZwZaLHhQdZKiEIjBQaNwehlGKBdJTs8IIFLNW/S9kq2ctjsjyk6xOpHmAdkgtaDf9nbTdt0xfRQ+XsMRuhcd4f8WrvGrDDPuU/fzlTkR0L/pdZBDveGK3kqpX1XHzIryuKu40J/67kozGxl3WR1/82oCICjkmx/Sp7p5W5CDSRBZuluwI/dkAnPBk/cxOlWKnLL8YSeVY=

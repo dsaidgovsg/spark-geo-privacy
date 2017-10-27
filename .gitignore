@@ -1,0 +1,22 @@
+*.class
+*.log
+*.pyc
+*.jar
+sbt/*.jar
+
+# IDE
+.idea/
+
+# sbt specific
+.cache/
+.history/
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# hadoop, hive & spark specific
+metastore_db/
