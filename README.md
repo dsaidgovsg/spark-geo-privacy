@@ -29,3 +29,9 @@ Build the package and include the output JAR when submitting your Spark applicat
 ## Notes
 
 This spark package is build using [`sbt-spark-package`](https://github.com/databricks/sbt-spark-package).
+
+## Contributors
+
+- [@chrissng](https://github.com/chrissng)
+- [@leesq](https://github.com/leesq)
+- [@yxtay](https://github.com/yxtay)
